@@ -1,0 +1,36 @@
+# Variable Group 'tf-sync from-az-variable-group' was defined in the Variables tab
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/tf-workload
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool: workload-selfhosted-agentpool
+#    vmImage: agent-poolvm
+  steps:
+  - checkout: self
+    clean: true
+  - task: TerraformInstaller@0
+    displayName: Use Terraform latest
+  - task: CmdLine@2
+    displayName: Terraform executive build
+    inputs:
+      script: >
+        terraform init #-backend-config="access_key=jkogPrn9fnbXirgWATRwOwIflgkodPzRNzrv4qULIgLmNPyREiGKO4+rmBaL3F8N2fndvllc4vFw+AStRaqxWA==" -backend-config="storage_account_name=tfdemostorageacc" -backend-config="key=tfazdemokey001.tfstate" -backend-config="container_name=terraform-state"
+        terraform validate
+        terraform plan -input=false -out=tfplan -var="spn-client-id=$(tf-azdemo-spn-client-id)" -var="spn-client-secret=$(tf-azdemo-spn-secret)" -var="spn-tenant-id=$(tf-azdemo-spn-tenant-id)"
+      workingDirectory: dev
+  - task: ArchiveFiles@2
+    displayName: Archive-terraform-plan-file
+    inputs:
+      rootFolderOrFile: dev
+      archiveType: tar
+      archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.tgz
+  - task: PublishPipelineArtifact@1
+    displayName: Publish terraform Artifact
+    inputs:
+      path: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.tgz
+      artifactName: $(Build.BuildId)-tfplan
+...
