@@ -16,5 +16,5 @@ steps:
     cd dev
     terraform init
     terraform plan
-    terraform apply
+    terraform apply -auto-approve
   displayName: 'Terraform D|eploy'
