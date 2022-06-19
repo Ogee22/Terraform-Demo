@@ -1,0 +1,29 @@
+pool:
+  vmImage: workload-selfhosted-agentpool
+
+steps:
+- script: echo terraform
+  displayName: 'terraform deployment'
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+    backendType: 'azurerm'
+    backendServiceArm: 'tf-azdemo-spn'
+    backendAzureRmSubscriptionId: '800eeb5c-ab87-468f-800b-d9ca632b4f73'
+    backendAzureRmResourceGroupName: 'terrraform-demo'
+    backendAzureRmStorageAccountName: 'tfdemostorageacc'
+    backendAzureRmContainerName: 'terraform-state'
+    backendAzureRmKey: 'tfazdemokey001.tfstate'
+    allowTelemetryCollection: true
+
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+    environmentServiceName: 'tf-azdemo-spn'
+    providerAzureRmSubscriptionId: '800eeb5c-ab87-468f-800b-d9ca632b4f73'
+    allowTelemetryCollection: true
+
