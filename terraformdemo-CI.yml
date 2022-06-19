@@ -7,8 +7,8 @@ resources:
 jobs:
 - job: Job_1
   displayName: Agent job 1
-  pool:
-    vmImage: agent-poolvm
+  pool: workload-selfhosted-agentpool
+#    vmImage: agent-poolvm
   steps:
   - checkout: self
     clean: true
