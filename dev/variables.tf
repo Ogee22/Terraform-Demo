@@ -30,19 +30,23 @@ variable "subnet_address_space" {
 variable "subscription_id" {
   type        = string
   description = "The Subscription ID in which the Storage Account exists. This can also be sourced from the ARM_SUBSCRIPTION_ID environment variable."
+  default = "800eeb5c-ab87-468f-800b-d9ca632b4f73"
 }
 
 variable "client_id" {
   type        = string
   description = "The Client ID of the Service Principal. This can also be sourced from the ARM_CLIENT_ID environment variable"
+  default = "d6628d3a-83f3-4110-94a8-cd74ed222feb"
 }
 
 variable "tenant_id" {
   type        = string
   description = "The Tenant ID in which the Subscription exists. This can also be sourced from the ARM_TENANT_ID environment variable"
+  default = "e72f01dd-8399-46f2-9835-6b6ea90ae800"
 }
 
 variable "client_secret" {
   type        = string
   description = "The Client Secret of the Service Principal. This can also be sourced from the ARM_CLIENT_SECRET environment variable"
+  default = "gDC8Q~V0v3fclpk0Bplm~pW1vHS-RHq0iVIo4cHB"
 }
