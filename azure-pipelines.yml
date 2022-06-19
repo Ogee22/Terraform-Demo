@@ -1,5 +1,5 @@
-trigger:
-- terraform_simple_module
+# trigger:
+# - terraform_simple_module
 
 pool: workload-selfhosted-agentpool
 
