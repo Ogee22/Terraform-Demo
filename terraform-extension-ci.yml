@@ -1,5 +1,4 @@
-pool:
-  vmImage: workload-selfhosted-agentpool
+pool: workload-selfhosted-agentpool
 
 steps:
 - script: echo terraform
