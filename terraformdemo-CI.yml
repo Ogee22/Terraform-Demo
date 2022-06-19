@@ -1,0 +1,38 @@
+# Variable Group 'tf-sync from-az-variable-group' was defined in the Variables tab
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/tf-workload
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: vs2017-win2016
+  steps:
+  - checkout: self
+    clean: true
+  - task: TerraformInstaller@0
+    displayName: Use Terraform latest
+  - task: CmdLine@2
+    displayName: Terraform executive build
+    inputs:
+      script: >
+        terraform init -backend-config="access_key=$(tfkeyvaul)"
+
+        terraform validate
+
+        terraform plan -input=false -out=tfplan -var="spn-client-id=$(tf-azdemo-spn-client-id)" -var="spn-client-secret=$(tf-azdemo-spn-secret)" -var="spn-tenant-id=$(tf-azdemo-spn-tenant-id)"
+      workingDirectory: dev
+  - task: ArchiveFiles@2
+    displayName: Archive-terraform-plan-file
+    inputs:
+      rootFolderOrFile: dev
+      archiveType: tar
+      archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.tgz
+  - task: PublishPipelineArtifact@1
+    displayName: Publish terraform Artifact
+    inputs:
+      path: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.tgz
+      artifactName: $(Build.BuildId)-tfplan
+...
