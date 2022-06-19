@@ -17,4 +17,4 @@ steps:
     terraform init
     terraform plan
     terraform apply -auto-approve
-  displayName: 'Terraform D|eploy'
+  displayName: 'Terraform Deploy'
