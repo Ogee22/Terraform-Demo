@@ -18,7 +18,7 @@ jobs:
     displayName: Terraform executive build
     inputs:
       script: >
-        terraform init -backend-config="access_key=jkogPrn9fnbXirgWATRwOwIflgkodPzRNzrv4qULIgLmNPyREiGKO4+rmBaL3F8N2fndvllc4vFw+AStRaqxWA==" -backend-config="storage_account_name=tfdemostorageacc" -backend-config="key=tfazdemokey001.tfstate" -backend-config="container_name=terraform-state"
+        terraform init #-backend-config="access_key=jkogPrn9fnbXirgWATRwOwIflgkodPzRNzrv4qULIgLmNPyREiGKO4+rmBaL3F8N2fndvllc4vFw+AStRaqxWA==" -backend-config="storage_account_name=tfdemostorageacc" -backend-config="key=tfazdemokey001.tfstate" -backend-config="container_name=terraform-state"
         terraform validate
         terraform plan -input=false -out=tfplan -var="spn-client-id=$(tf-azdemo-spn-client-id)" -var="spn-client-secret=$(tf-azdemo-spn-secret)" -var="spn-tenant-id=$(tf-azdemo-spn-tenant-id)"
       workingDirectory: dev
